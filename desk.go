@@ -58,7 +58,7 @@ func writeSolution(name string) error {
 }
 
 func writeTest(name string) error {
-	return write(name, "package main")
+	return write(name, "package main\nimport \"testing\"\nfunc TestSolve(t *testing.T) {}\n")
 }
 
 func write(name, content string) error {
