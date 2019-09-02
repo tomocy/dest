@@ -54,11 +54,11 @@ func createDeskFiles(names ...string) error {
 }
 
 func writeSolution(name string) error {
-	return write(name, "package main\nfunc main() {}\nfunc solove() {}\n")
+	return write(name, "package main\n\nfunc main() {}\n\nfunc solove() {}\n")
 }
 
 func writeTest(name string) error {
-	return write(name, "package main\nimport \"testing\"\nfunc TestSolve(t *testing.T) {}\n")
+	return write(name, "package main\n\nimport \"testing\"\n\nfunc TestSolve(t *testing.T) {}\n")
 }
 
 func write(name, content string) error {
