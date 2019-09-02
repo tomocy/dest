@@ -22,11 +22,11 @@ func TestCreate(t *testing.T) {
 		expected  expected
 	}{
 		{testDataDir, "Apple is red", expected{
-			file{filepath.Join(testDataDir, "apple_is_red", "main.go"), "package main\n\nfunc main() {}"},
+			file{filepath.Join(testDataDir, "apple_is_red", "main.go"), "package main\nfunc main() {}\nfunc solove() {}\n"},
 			file{filepath.Join(testDataDir, "apple_is_red", "main_test.go"), "package main"},
 		}},
 		{testDataDir, "Banana is yellow", expected{
-			file{filepath.Join(testDataDir, "banana_is_yellow", "main.go"), "package main\n\nfunc main() {}"},
+			file{filepath.Join(testDataDir, "banana_is_yellow", "main.go"), "package main\nfunc main() {}\nfunc solove() {}\n"},
 			file{filepath.Join(testDataDir, "banana_is_yellow", "main_test.go"), "package main"},
 		}},
 	}

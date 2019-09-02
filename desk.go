@@ -54,10 +54,7 @@ func createDeskFiles(names ...string) error {
 }
 
 func writeSolution(name string) error {
-	return write(name, `package main
-
-func main() {}`,
-	)
+	return write(name, "package main\nfunc main() {}\nfunc solove() {}\n")
 }
 
 func writeTest(name string) error {
