@@ -17,17 +17,49 @@ func TestCreate(t *testing.T) {
 	type expected struct {
 		solution, test file
 	}
+	expectedTest := `package main
+
+import "testing"
+
+var solutions = map[string]func(interface{}) interface{}{}
+
+func TestSolve(t *testing.T) {
+	tests := []struct {
+		input, expected interface{}
+	}{}
+
+	for name, s := range solutions {
+		t.Run(name, func(t *testing.T) {
+			for _, test := range tests {
+				actual := s(test.input)
+				if actual != test.expected {
+					t.Errorf("got , expect ", actual, test.expected)
+				}
+			}
+		})
+	}
+}
+
+func BenchmarkSolve(b *testing.B) {
+	for name, s := range solutions {
+		b.Run(name, func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				s(interface{}{})
+			}
+		})
+	}
+}`
 	tests := []struct {
 		dir, name string
 		expected  expected
 	}{
 		{testDataDir, "Apple is red", expected{
 			file{filepath.Join(testDataDir, "apple_is_red", "main.go"), "package main\n\nfunc main() {}\n\nfunc solve() {}\n"},
-			file{filepath.Join(testDataDir, "apple_is_red", "main_test.go"), "package main\n\nimport \"testing\"\n\nfunc TestSolve(t *testing.T) {}\n"},
+			file{filepath.Join(testDataDir, "apple_is_red", "main_test.go"), expectedTest},
 		}},
 		{testDataDir, "Banana is yellow", expected{
 			file{filepath.Join(testDataDir, "banana_is_yellow", "main.go"), "package main\n\nfunc main() {}\n\nfunc solve() {}\n"},
-			file{filepath.Join(testDataDir, "banana_is_yellow", "main_test.go"), "package main\n\nimport \"testing\"\n\nfunc TestSolve(t *testing.T) {}\n"},
+			file{filepath.Join(testDataDir, "banana_is_yellow", "main_test.go"), expectedTest},
 		}},
 	}
 

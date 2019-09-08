@@ -58,7 +58,38 @@ func writeSolution(name string) error {
 }
 
 func writeTest(name string) error {
-	return write(name, "package main\n\nimport \"testing\"\n\nfunc TestSolve(t *testing.T) {}\n")
+	return write(name, `package main
+
+import "testing"
+
+var solutions = map[string]func(interface{}) interface{}{}
+
+func TestSolve(t *testing.T) {
+	tests := []struct {
+		input, expected interface{}
+	}{}
+
+	for name, s := range solutions {
+		t.Run(name, func(t *testing.T) {
+			for _, test := range tests {
+				actual := s(test.input)
+				if actual != test.expected {
+					t.Errorf("got , expect ", actual, test.expected)
+				}
+			}
+		})
+	}
+}
+
+func BenchmarkSolve(b *testing.B) {
+	for name, s := range solutions {
+		b.Run(name, func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				s(interface{}{})
+			}
+		})
+	}
+}`)
 }
 
 func write(name, content string) error {
